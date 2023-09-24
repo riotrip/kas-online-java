@@ -5,7 +5,8 @@ import java.time.format.DateTimeFormatter;
 public class kasKeluar {
     public static void main(String[] args) {
         String namaMahasiswa, alasanTarik;
-        int kasMasuk, kasKeluar, kasMahasiswa, totKasAwal, totKasAkhir, tunggakKas, kasBulan;
+        int kasMasuk, kasKeluar, kasMahasiswa, totKasAwal, totKasAkhir, tunggakKas, kasBulan, kasInMahasiswa, kasOutMahasiswa, tunggakTarik, tunggakTambah;
+       
         Scanner scan = new Scanner(System.in);
         LocalDateTime waktu = LocalDateTime.now();
         DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
@@ -35,9 +36,13 @@ public class kasKeluar {
         alasanTarik = scan.nextLine();
         System.out.println("--------------------------");
         totKasAkhir = totKasAwal-kasKeluar;
+        kasOutMahasiswa = kasMahasiswa-kasKeluar;
+        tunggakTarik = tunggakKas+kasKeluar;
         System.out.println("Kas yang ditarik: " + kasKeluar);
         System.out.println("Alasan penarikan: " + alasanTarik);
         System.out.println("Waktu penambahan: " + formatWaktu);
+        System.out.println("Kas mahasiswa setelah ditarik: " + kasOutMahasiswa);
+        System.out.println("Tunggakan mahasiswa setelah ditarik: " + tunggakTarik);
         System.out.println("Jumlah kas setelah penarikan: " + totKasAkhir);
     }
 }
