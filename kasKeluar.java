@@ -40,7 +40,7 @@ public class kasKeluar {
         tunggakTarik = tunggakKas+kasKeluar;
         System.out.println("Kas yang ditarik: " + kasKeluar);
         System.out.println("Alasan penarikan: " + alasanTarik);
-        System.out.println("Waktu penambahan: " + formatWaktu);
+        System.out.println("Waktu penarikan: " + formatWaktu);
         System.out.println("Kas mahasiswa setelah ditarik: " + kasOutMahasiswa);
         System.out.println("Tunggakan mahasiswa setelah ditarik: " + tunggakTarik);
         System.out.println("Jumlah kas setelah penarikan: " + totKasAkhir);

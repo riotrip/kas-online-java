@@ -20,7 +20,7 @@ public class kasMasuk {
         kasMahasiswa = 15000;
         tunggakKas = kasBulan-kasMahasiswa;
 
-        System.out.println("Selamat datang di Program Penarikan Kas");
+        System.out.println("Selamat datang di Program Penambahan Kas");
         System.out.println("--------------------------");
         System.out.println("Total kas: " + totKasAwal);
         System.out.println("Kas penuh bulan ini: " + kasBulan);
