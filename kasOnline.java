@@ -44,7 +44,6 @@ public class kasOnline {
                 alasanTarik = scan.nextLine();
                 System.out.println("--------------------------");
                 totKasAkhir = totKasAwal - kasKeluar;
-<<<<<<< HEAD
                 
                 if (kasKeluar <= 0) {
                     System.out.println("Jumlah yang ditarik harus lebih dari 0");
@@ -57,14 +56,6 @@ public class kasOnline {
                      System.out.println("Waktu penarikan: " + formatWaktu);
                      System.out.println("Jumlah total kas setelah penarikan: " + totKasAkhir);
                 }
-               
-=======
-                System.out.println("Mahasiswa yang meminjam kas: " + namaMahasiswa);
-                System.out.println("Kas yang ditarik: " + kasKeluar);
-                System.out.println("Alasan penarikan: " + alasanTarik);
-                System.out.println("Waktu penarikan: " + formatWaktu);
-                System.out.println("Jumlah total kas setelah penarikan: " + totKasAkhir);
->>>>>>> fd693066df3ea0649139447f357b6eca4fe143fe
                 break;
             case 2:
                 System.out.println("Selamat datang di Program Penambahan Kas");
