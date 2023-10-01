@@ -57,6 +57,7 @@ public class kasOnline {
                      System.out.println("Jumlah total kas setelah penarikan: " + totKasAkhir);
                 }
                 break;
+                
             case 2:
                 System.out.println("Selamat datang di Program Penambahan Kas");
                 System.out.println("--------------------------");
