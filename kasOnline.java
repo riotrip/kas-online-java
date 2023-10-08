@@ -6,7 +6,8 @@ public class kasOnline {
     public static void main(String[] args) {
         String namaMahasiswa, alasanTarik;
         int pilihan, kasMasuk, kasKeluar, totKasAwal, totKasAkhir, kasBulanFull, kasBulanReal, jmlKasFull, jmlKasAdd,
-                jmlKasDone;
+                jmlKasDone, kasYangBelumDiBayarkan,  jmlYangInginDiBayarkan;
+
 
         Scanner scan = new Scanner(System.in);
         LocalDateTime waktu = LocalDateTime.now();
@@ -57,7 +58,6 @@ public class kasOnline {
                      System.out.println("Jumlah total kas setelah penarikan: " + totKasAkhir);
                 }
                 break;
-                
             case 2:
                 System.out.println("Selamat datang di Program Penambahan Kas");
                 System.out.println("--------------------------");
@@ -75,6 +75,22 @@ public class kasOnline {
                 System.out.println("Masukkan berapa kali pembayaran dilakukan sekarang: ");
                 jmlKasAdd = scan.nextInt();
                 System.out.println("--------------------------");
+
+                System.out.println("Masukkan jumlah yang ingin dibayarkan : ");
+                jmlYangInginDiBayarkan = scan.nextInt();
+                System.out.println("Masukkan berapa kali jumlah kas yang belum di bayarkan");
+                kasYangBelumDiBayarkan = scan.nextInt();
+    
+                   if(kasYangBelumDiBayarkan <= 4) {
+                      if (kasYangBelumDiBayarkan == 0) {
+                        System.out.println("LUNAS. tidak perlu membayar denda 5000");
+                      } else {
+                        System.out.println("BELUM LUNAS TETAPI TIDAK PERLU MEMBAYAR DENDA");
+                      }
+                   } else {
+                         System.out.println("BELUM LUNAS. wajib membayar denda 5000");
+                     }
+
                 totKasAkhir = totKasAwal + kasMasuk;
                 jmlKasFull = jmlKasAdd + jmlKasDone;
                 kasBulanReal = kasMasuk + kasBulanReal;
