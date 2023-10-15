@@ -37,100 +37,97 @@ public class kasOnline {
                 loginBerhasil = true;
                 System.out.println("Login berhasil\n");
 
-            do {
-                System.out.println("\nSelamat Datang di Program Kas Online!");
-                System.out.println("Pilih Menu:");
-                System.out.println("1. Penarikan Kas");
-                System.out.println("2. Penambahan Kas");
-                System.out.println("0. keluar");
-                System.out.print("Pilih menu dalam (1/2/0): ");
-                pilihan = scan.nextInt();
+                do {
+                    System.out.println("\nSelamat Datang di Program Kas Online!");
+                    System.out.println("Pilih Menu:");
+                    System.out.println("1. Penarikan Kas");
+                    System.out.println("2. Penambahan Kas");
+                    System.out.println("0. keluar");
+                    System.out.print("Pilih menu dalam (1/2/0): ");
+                    pilihan = scan.nextInt();
 
-                switch (pilihan) {
-                    case 1:
-                        System.out.println("Selamat datang di Program Penarikan Kas");
-                        System.out.println("--------------------------");
-                        System.out.println("Total kas: " + totKasAwal);
-                        System.out.println("Kas bulan ini jika penuh: " + kasBulanFull);
-                        System.out.println("Kas asli bulan ini: " + kasBulanReal);
-                        System.out.println("--------------------------");
-                        System.out.println("Masukkan nama siswa yang menarik Kas: ");
-                        scan.nextLine();
-                        namaMahasiswa = scan.nextLine();
-                        System.out.println("Masukkan jumlah yang ditarik: ");
-                        kasKeluar = scan.nextInt();
-                        System.out.println("Masukkan Alasan: ");
-                        scan.nextLine();
-                        alasanTarik = scan.nextLine();
-                        System.out.println("--------------------------");
-                        totKasAkhir = totKasAwal - kasKeluar;
+                    switch (pilihan) {
+                        case 1:
+                            System.out.println("Selamat datang di Program Penarikan Kas");
+                            System.out.println("--------------------------");
+                            System.out.println("Total kas: " + totKasAwal);
+                            System.out.println("Kas bulan ini jika penuh: " + kasBulanFull);
+                            System.out.println("Kas asli bulan ini: " + kasBulanReal);
+                            System.out.println("--------------------------");
+                            System.out.println("Masukkan nama siswa yang menarik Kas: ");
+                            scan.nextLine();
+                            namaMahasiswa = scan.nextLine();
+                            System.out.println("Masukkan jumlah yang ditarik: ");
+                            kasKeluar = scan.nextInt();
+                            System.out.println("Masukkan Alasan: ");
+                            scan.nextLine();
+                            alasanTarik = scan.nextLine();
+                            System.out.println("--------------------------");
+                            totKasAkhir = totKasAwal - kasKeluar;
 
-                        if (kasKeluar <= 0) {
-                            System.out.println("Jumlah yang ditarik harus lebih dari 0");
-                        } else if (kasKeluar > totKasAwal) {
-                            System.out.println("Maaf, jumlah yang ditarik melebihi total kas yang tersedia");
-                        } else {
-                            System.out.println("Mahasiswa yang meminjam kas: " + namaMahasiswa);
-                            System.out.println("Kas yang ditarik: " + kasKeluar);
-                            System.out.println("Alasan penarikan: " + alasanTarik);
-                            System.out.println("Waktu penarikan: " + formatWaktu);
-                            System.out.println("Jumlah total kas setelah penarikan: " + totKasAkhir);
-                        }
-                        break;
-                    case 2:
-                        System.out.println("Selamat datang di Program Penambahan Kas");
-                        System.out.println("--------------------------");
-                        System.out.println("Total kas: " + totKasAwal);
-                        System.out.println("Kas bulan ini jika penuh: " + kasBulanFull);
-                        System.out.println("Kas asli bulan ini: " + kasBulanReal);
-                        System.out.println("--------------------------");
-                        System.out.println("Masukkan nama siswa yang menarik Kas: ");
-                        scan.nextLine();
-                        namaMahasiswa = scan.nextLine();
-                        System.out.println("Masukkan berapa kali pembayaran sudah dilakukan: ");
-                        jmlKasDone = scan.nextInt();
-                        System.out.println("Masukkan jumlah uang yang ditambahkan: ");
-                        kasMasuk = scan.nextInt();
-                        System.out.println("Masukkan berapa kali pembayaran dilakukan sekarang: ");
-                        jmlKasAdd = scan.nextInt();
-                        System.out.println("--------------------------");
-
-                        System.out.println("Masukkan jumlah yang ingin dibayarkan : ");
-                        jmlYangInginDiBayarkan = scan.nextInt();
-                        System.out.println("Masukkan berapa kali jumlah kas yang belum di bayarkan");
-                        kasYangBelumDiBayarkan = scan.nextInt();
-
-                        if (kasYangBelumDiBayarkan <= 4) {
-                            if (kasYangBelumDiBayarkan == 0) {
-                                System.out.println("LUNAS. tidak perlu membayar denda 5000");
+                            if (kasKeluar <= 0) {
+                                System.out.println("Jumlah yang ditarik harus lebih dari 0");
+                            } else if (kasKeluar > totKasAwal) {
+                                System.out.println("Maaf, jumlah yang ditarik melebihi total kas yang tersedia");
                             } else {
-                                System.out.println("BELUM LUNAS TETAPI TIDAK PERLU MEMBAYAR DENDA");
+                                System.out.println("Mahasiswa yang meminjam kas: " + namaMahasiswa);
+                                System.out.println("Kas yang ditarik: " + kasKeluar);
+                                System.out.println("Alasan penarikan: " + alasanTarik);
+                                System.out.println("Waktu penarikan: " + formatWaktu);
+                                System.out.println("Jumlah total kas setelah penarikan: " + totKasAkhir);
                             }
-                        } else {
-                            System.out.println("BELUM LUNAS. wajib membayar denda 5000");
-                        }
+                            break;
+                        case 2:
+                            System.out.println("Selamat datang di Program Penambahan Kas");
+                            System.out.println("--------------------------");
+                            System.out.println("Total kas: " + totKasAwal);
+                            System.out.println("Kas bulan ini jika penuh: " + kasBulanFull);
+                            System.out.println("Kas asli bulan ini: " + kasBulanReal);
+                            System.out.println("--------------------------");
+                            System.out.println("Masukkan nama siswa yang menarik Kas: ");
+                            scan.nextLine();
+                            namaMahasiswa = scan.nextLine();
+                            System.out.println("Masukkan berapa kali pembayaran sudah dilakukan: ");
+                            jmlKasDone = scan.nextInt();
+                            System.out.println("Masukkan jumlah uang yang ditambahkan: ");
+                            kasMasuk = scan.nextInt();
+                            System.out.println("Masukkan berapa kali pembayaran dilakukan sekarang: ");
+                            jmlKasAdd = scan.nextInt();
+                            System.out.println("--------------------------");
 
-                        totKasAkhir = totKasAwal + kasMasuk;
-                        jmlKasFull = jmlKasAdd + jmlKasDone;
-                        kasBulanReal = kasMasuk + kasBulanReal;
-                        System.out.println("Mahasiswa yang membayar kas: " + namaMahasiswa);
-                        System.out.println("Kas yang ditambah: " + kasMasuk);
-                        System.out.println("Waktu penambahan: " + formatWaktu);
-                        System.out.println("Pembayaran yang dilakukan mahasiswa pada bulan ini: " + jmlKasFull);
-                        System.out.println("Kas asli bulan ini setelah ditambah: " + kasBulanReal);
-                        System.out.println("Kas bulan ini jika penuh: " + kasBulanFull);
-                        System.out.println("Jumlah kas setelah penambahan: " + totKasAkhir);
-                        break;
+                            totKasAkhir = totKasAwal + kasMasuk;
+                            jmlKasFull = jmlKasAdd + jmlKasDone;
+                            kasYangBelumDiBayarkan = 4 - jmlKasFull;
+                            kasBulanReal = kasMasuk + kasBulanReal;
 
-                    default:
-                        System.out.println("Pilihan tidak valid");
-                        break;
+                            if (kasYangBelumDiBayarkan <= 4) {
+                                if (kasYangBelumDiBayarkan <= 0) {
+                                    System.out.println("LUNAS. tidak perlu membayar denda 5000");
+                                } else {
+                                    System.out.println("BELUM LUNAS TETAPI TIDAK PERLU MEMBAYAR DENDA");
+                                }
+                            } else {
+                                System.out.println("BELUM LUNAS. wajib membayar denda 5000");
+                            }
+                            System.out.println("Mahasiswa yang membayar kas: " + namaMahasiswa);
+                            System.out.println("Kas yang ditambah: " + kasMasuk);
+                            System.out.println("Waktu penambahan: " + formatWaktu);
+                            System.out.println("Pembayaran yang dilakukan mahasiswa pada bulan ini: " + jmlKasFull);
+                            System.out.println("Kas asli bulan ini setelah ditambah: " + kasBulanReal);
+                            System.out.println("Kas bulan ini jika penuh: " + kasBulanFull);
+                            System.out.println("Jumlah kas setelah penambahan: " + totKasAkhir);
+                            break;
 
-                    case 0:
-                        System.out.println("Keluar");
-                        return;
+                        default:
+                            System.out.println("Pilihan tidak valid");
+                            break;
 
-               }   } while (pilihan >=0);
+                        case 0:
+                            System.out.println("Keluar");
+                            return;
+
+                    }
+                } while (pilihan >= 0);
             } else {
                 jumlahPercobaan--;
                 System.out.println("Login gagal. Sisa percobaan: " + (jumlahPercobaan));
@@ -143,4 +140,4 @@ public class kasOnline {
         scan.close();
 
     }
-}  
+}
