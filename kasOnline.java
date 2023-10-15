@@ -37,11 +37,13 @@ public class kasOnline {
                 loginBerhasil = true;
                 System.out.println("Login berhasil\n");
 
+            do {
                 System.out.println("\nSelamat Datang di Program Kas Online!");
                 System.out.println("Pilih Menu:");
                 System.out.println("1. Penarikan Kas");
                 System.out.println("2. Penambahan Kas");
-                System.out.print("Pilih menu dalam (1/2): ");
+                System.out.println("0. keluar");
+                System.out.print("Pilih menu dalam (1/2/0): ");
                 pilihan = scan.nextInt();
 
                 switch (pilihan) {
@@ -53,7 +55,7 @@ public class kasOnline {
                         System.out.println("Kas asli bulan ini: " + kasBulanReal);
                         System.out.println("--------------------------");
                         System.out.println("Masukkan nama siswa yang menarik Kas: ");
-                        scan.next();
+                        scan.nextLine();
                         namaMahasiswa = scan.nextLine();
                         System.out.println("Masukkan jumlah yang ditarik: ");
                         kasKeluar = scan.nextInt();
@@ -74,7 +76,7 @@ public class kasOnline {
                             System.out.println("Waktu penarikan: " + formatWaktu);
                             System.out.println("Jumlah total kas setelah penarikan: " + totKasAkhir);
                         }
-                        return;
+                        break;
                     case 2:
                         System.out.println("Selamat datang di Program Penambahan Kas");
                         System.out.println("--------------------------");
@@ -83,7 +85,7 @@ public class kasOnline {
                         System.out.println("Kas asli bulan ini: " + kasBulanReal);
                         System.out.println("--------------------------");
                         System.out.println("Masukkan nama siswa yang menarik Kas: ");
-                        scan.next();
+                        scan.nextLine();
                         namaMahasiswa = scan.nextLine();
                         System.out.println("Masukkan berapa kali pembayaran sudah dilakukan: ");
                         jmlKasDone = scan.nextInt();
@@ -118,12 +120,17 @@ public class kasOnline {
                         System.out.println("Kas asli bulan ini setelah ditambah: " + kasBulanReal);
                         System.out.println("Kas bulan ini jika penuh: " + kasBulanFull);
                         System.out.println("Jumlah kas setelah penambahan: " + totKasAkhir);
-                        return;
+                        break;
 
                     default:
                         System.out.println("Pilihan tidak valid");
+                        break;
+
+                    case 0:
+                        System.out.println("Keluar");
                         return;
-                }
+
+               }   } while (pilihan >=0);
             } else {
                 jumlahPercobaan--;
                 System.out.println("Login gagal. Sisa percobaan: " + (jumlahPercobaan));
@@ -136,4 +143,4 @@ public class kasOnline {
         scan.close();
 
     }
-}
+}  
