@@ -7,8 +7,7 @@ public class kasOnline {
         String username, password, namaMahasiswa, alasanTarik;
         int jumlahPercobaan, pilihan, kasMasuk, kasKeluar, totKasAwal, totKasAkhir, kasBulanFull, kasBulanReal,
                 jmlKasFull, jmlKasAdd,
-                jmlKasDone, kasYangBelumDiBayarkan, jmlYangInginDiBayarkan;
-        boolean loginBerhasil;
+                jmlKasDone, kasYangBelumDiBayarkan;
 
         LocalDateTime waktu = LocalDateTime.now();
         DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
@@ -21,10 +20,7 @@ public class kasOnline {
         kasBulanReal = 10000;
         jmlKasFull = 4;
 
-        username = "mahasiswa";
-        password = "123";
         jumlahPercobaan = 3;
-        loginBerhasil = false;
 
         do {
             System.out.println("Silahkan Login");
@@ -34,11 +30,10 @@ public class kasOnline {
             password = scan.nextLine();
 
             if (username.equals("mahasiswa") && password.equals("123")) {
-                loginBerhasil = true;
                 System.out.println("Login berhasil\n");
 
                 do {
-                    System.out.println("\nSelamat Datang di Program Kas Online!");
+                    System.out.println("Selamat Datang di Program Kas Online!");
                     System.out.println("Pilih Menu:");
                     System.out.println("1. Penarikan Kas");
                     System.out.println("2. Penambahan Kas");
@@ -97,18 +92,8 @@ public class kasOnline {
 
                             totKasAkhir = totKasAwal + kasMasuk;
                             jmlKasFull = jmlKasAdd + jmlKasDone;
-                            kasYangBelumDiBayarkan = 4 - jmlKasFull;
                             kasBulanReal = kasMasuk + kasBulanReal;
 
-                            if (kasYangBelumDiBayarkan <= 4) {
-                                if (kasYangBelumDiBayarkan <= 0) {
-                                    System.out.println("LUNAS. tidak perlu membayar denda 5000");
-                                } else {
-                                    System.out.println("BELUM LUNAS TETAPI TIDAK PERLU MEMBAYAR DENDA");
-                                }
-                            } else {
-                                System.out.println("BELUM LUNAS. wajib membayar denda 5000");
-                            }
                             System.out.println("Mahasiswa yang membayar kas: " + namaMahasiswa);
                             System.out.println("Kas yang ditambah: " + kasMasuk);
                             System.out.println("Waktu penambahan: " + formatWaktu);
