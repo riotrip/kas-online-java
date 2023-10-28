@@ -50,6 +50,7 @@ public class kasOnline {
                             System.out.println("Kas bulan ini jika penuh: " + kasBulanFull);
                             System.out.println("Kas asli bulan ini: " + kasBulanReal);
                             System.out.println("--------------------------");
+
                             scan.nextLine();
                             String cekNama = " ";
                             int kesempatan = 3;
@@ -148,6 +149,7 @@ public class kasOnline {
                                 System.out.println("Kas bulan ini jika penuh: " + kasBulanFull);
                                 System.out.println("Jumlah kas setelah penambahan: " + totKasAwal);
                             }
+
                             break;
 
                         default:
