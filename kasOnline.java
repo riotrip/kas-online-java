@@ -153,6 +153,16 @@ public class kasOnline {
                                                 "Pembayaran yang dilakukan mahasiswa keseluruhan: "
                                                         + jmlKasDone[index]);
                                         System.out.println("--------------------------");
+
+                                        if (jmlKasDone[index] >= 8) {
+                                            if (jmlKasDone[index] > 12) {
+                                                System.out.println("Lunas, tidak perlu membayar denda");
+                                            } else {
+                                                System.out.println("Belum Lunas, tetapi tidak perlu membayar denda");
+                                            }
+                                        } else {
+                                            System.out.println("Belum Lunas, dan perlu membayar denda 5000");
+                                        }
                                         
                                         System.out.println("--------------------------");
                                         System.out.println("Kas asli bulan ini setelah ditambah: " + kasBulanReal);
