@@ -4,11 +4,12 @@ import java.time.format.DateTimeFormatter;
 
 public class kasOnline {
     public static void main(String[] args) {
-        String username, password, alasanTarik;
+        String username, password, alasanTarik, cekNama;
         int jumlahPercobaan, pilihan, kasMasuk, kasKeluar, totKasAwal, kasBulanFull, kasBulanReal,
-                jmlKasFull, jmlKasAdd,
-                jmlKasDone;
+                jmlKasFull, jmlKasAdd, kesempatan, index;
+        boolean sesuai, cekKelipatan;
         String[] namaMahasiswa = { "Tony", "Rey", "Dani" };
+        int[] jmlKasDone = { 15, 6, 10 };
 
         LocalDateTime waktu = LocalDateTime.now();
         DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
@@ -19,7 +20,7 @@ public class kasOnline {
         totKasAwal = 100000;
         kasBulanFull = 20000;
         kasBulanReal = 10000;
-        jmlKasFull = 4;
+        jmlKasFull = 12;
 
         jumlahPercobaan = 3;
 
@@ -31,10 +32,10 @@ public class kasOnline {
             password = scan.nextLine();
 
             if (username.equals("mahasiswa") && password.equals("123")) {
-                System.out.println("Login berhasil\n");
+                System.out.println("\nLogin berhasil");
 
                 do {
-                    System.out.println("Selamat Datang di Program Kas Online!");
+                    System.out.println("\nSelamat Datang di Program Kas Online!");
                     System.out.println("Pilih Menu:");
                     System.out.println("1. Penarikan Kas");
                     System.out.println("2. Penambahan Kas");
@@ -52,22 +53,24 @@ public class kasOnline {
                             System.out.println("--------------------------");
 
                             scan.nextLine();
-                            String cekNama = " ";
-                            int kesempatan = 3;
-                            boolean sesuai = false;
+                            cekNama = " ";
+                            kesempatan = 3;
+                            sesuai = false;
+                            index = -1;
                             while (!sesuai && kesempatan >= 1) {
                                 System.out.println("Masukkan nama yang menarik kas: ");
                                 cekNama = scan.nextLine();
-                                for (String cari : namaMahasiswa) {
-                                    if (cari.equals(cekNama)) {
-                                        System.out.println("Data ditemukan: " + cari);
+                                for (int i = 0; i < namaMahasiswa.length; i++) {
+                                    if (namaMahasiswa[i].equals(cekNama)) {
+                                        System.out.println("Data mahasiswa ditemukan: " + namaMahasiswa[i]);
                                         sesuai = true;
+                                        index = i;
                                         break;
                                     }
                                 }
                                 if (!sesuai) {
                                     kesempatan--;
-                                    System.out.println("Data tidak ditemukan dalam array.");
+                                    System.out.println("Data mahasiswa tidak ditemukan dalam database.");
                                 }
                             }
                             if (kesempatan == 0) {
@@ -110,44 +113,55 @@ public class kasOnline {
                             cekNama = " ";
                             kesempatan = 3;
                             sesuai = false;
+                            index = -1;
                             while (!sesuai && kesempatan >= 1) {
                                 System.out.println("Masukkan nama yang menambah kas: ");
                                 cekNama = scan.nextLine();
-                                for (String cari : namaMahasiswa) {
-                                    if (cari.equals(cekNama)) {
-                                        System.out.println("Data ditemukan: " + cari);
+                                for (int i = 0; i < namaMahasiswa.length; i++) {
+                                    if (namaMahasiswa[i].equals(cekNama)) {
+                                        System.out.println("Data mahasiswa ditemukan: " + namaMahasiswa[i]);
                                         sesuai = true;
+                                        index = i;
                                         break;
                                     }
                                 }
                                 if (!sesuai) {
                                     kesempatan--;
-                                    System.out.println("Data tidak ditemukan dalam array.");
+                                    System.out.println("Data mahasiswa tidak ditemukan dalam database.");
                                 }
                             }
                             if (kesempatan == 0) {
                                 System.out.println(
                                         "Anda telah melebihi batas percobaan, coba lagi setelah kembali ke menu");
                             } else {
-                                System.out.println("Masukkan berapa kali pembayaran sudah dilakukan: ");
-                                jmlKasDone = scan.nextInt();
-                                System.out.println("Masukkan jumlah uang yang ditambahkan: ");
-                                kasMasuk = scan.nextInt();
-                                System.out.println("Masukkan berapa kali pembayaran dilakukan sekarang: ");
-                                jmlKasAdd = scan.nextInt();
-                                System.out.println("--------------------------");
+                                cekKelipatan = false;
+                                while (!cekKelipatan) {
+                                    System.out.println("Masukkan jumlah uang yang ditambahkan: ");
+                                    kasMasuk = scan.nextInt();
+                                    if (kasMasuk % 5000 == 0) {
+                                        cekKelipatan = true;
+                                        totKasAwal = totKasAwal + kasMasuk;
+                                        jmlKasAdd = kasMasuk / 5000;
+                                        jmlKasDone[index] += jmlKasAdd;
+                                        kasBulanReal = kasMasuk + kasBulanReal;
 
-                                totKasAwal = totKasAwal + kasMasuk;
-                                jmlKasFull = jmlKasAdd + jmlKasDone;
-                                kasBulanReal = kasMasuk + kasBulanReal;
-
-                                System.out.println("Mahasiswa yang membayar kas: " + cekNama);
-                                System.out.println("Kas yang ditambah: " + kasMasuk);
-                                System.out.println("Waktu penambahan: " + formatWaktu);
-                                System.out.println("Pembayaran yang dilakukan mahasiswa pada bulan ini: " + jmlKasFull);
-                                System.out.println("Kas asli bulan ini setelah ditambah: " + kasBulanReal);
-                                System.out.println("Kas bulan ini jika penuh: " + kasBulanFull);
-                                System.out.println("Jumlah kas setelah penambahan: " + totKasAwal);
+                                        System.out.println("--------------------------");
+                                        System.out.println("Mahasiswa yang membayar kas: " + cekNama);
+                                        System.out.println("Kas yang ditambah: " + kasMasuk);
+                                        System.out.println("Waktu penambahan: " + formatWaktu);
+                                        System.out.println(
+                                                "Pembayaran yang dilakukan mahasiswa keseluruhan: "
+                                                        + jmlKasDone[index]);
+                                        System.out.println("--------------------------");
+                                        
+                                        System.out.println("--------------------------");
+                                        System.out.println("Kas asli bulan ini setelah ditambah: " + kasBulanReal);
+                                        System.out.println("Kas bulan ini jika penuh: " + kasBulanFull);
+                                        System.out.println("Jumlah kas setelah penambahan: " + totKasAwal);
+                                    } else {
+                                        System.out.println("Uang harus kelipatan 5000");
+                                    }
+                                }
                             }
 
                             break;
