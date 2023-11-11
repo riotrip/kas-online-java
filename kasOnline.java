@@ -10,6 +10,7 @@ public class kasOnline {
         boolean sesuai, cekKelipatan;
         String[] namaMahasiswa = { "Tony", "Rey", "Dani" };
         int[] jmlKasDone = { 15, 6, 10 };
+        String[][] riwayaTransaksi = new String[3][100];
 
         LocalDateTime waktu = LocalDateTime.now();
         DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
@@ -98,6 +99,9 @@ public class kasOnline {
                                     System.out.println("Jumlah total kas setelah penarikan: " + totKasAwal);
 
                                 }
+                                riwayatTransaksi[index][jmlKasDone[index]] = "Penarikn kas - " + kasKeluar + " - "
+                                    + alasanTarik + " - " + formatWaktu;
+                                jmlKasDone[index]++;
                             }
 
                             break;
@@ -171,9 +175,26 @@ public class kasOnline {
                                     } else {
                                         System.out.println("Uang harus kelipatan 5000");
                                     }
+                                    riwayatTransaksi[index][jmlKasDone[index]] = "penambahan kas - " + kasMasuk + " - "
+                                        + formatWaktu;
+                                    jmlKasDone[index]++;
                                 }
                             }
 
+                            break;
+                        case 3:
+                            System.out.println("Selamat datang di Program Riwayat Transaksi Kas");
+                            System.out.println("--------------------------");
+                            System.out.println("Cetak Riwayat Transaksi untuk setiap pengguna");
+                            for (int i = 0; i < namaMahasiswa.length; i++) {
+                                System.out.println("Riwayat Transaksi untuk " + namaMahasiswa[i]);
+                                for (int j = 0; j < jmlKasDone[i]; j++) {
+                                    if (riwayatTransaksi[i][j] != null) {
+                                        
+                                    }
+                                }
+                                System.out.println();
+                            }
                             break;
 
                         default:
