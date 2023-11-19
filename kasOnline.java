@@ -11,6 +11,7 @@ public class kasOnline {
         String[] namaMahasiswa = { "Tony", "Rey", "Dani" };
         int[] jmlKasDone = { 15, 6, 10 };
         String[][] riwayaTransaksi = new String[3][100];
+        String[] riwayatTotal = new String[2];
 
         LocalDateTime waktu = LocalDateTime.now();
         DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
@@ -40,8 +41,9 @@ public class kasOnline {
                     System.out.println("Pilih Menu:");
                     System.out.println("1. Penarikan Kas");
                     System.out.println("2. Penambahan Kas");
+                    System.out.println("3. Riwayat Kas");
                     System.out.println("0. keluar");
-                    System.out.print("Pilih menu dalam (1/2/0): ");
+                    System.out.print("Pilih menu dalam (1/2/3/0): ");
                     pilihan = scan.nextInt();
 
                     switch (pilihan) {
@@ -101,6 +103,7 @@ public class kasOnline {
                                 }
                                 riwayatTransaksi[index][jmlKasDone[index]] = "Penarikn kas - " + kasKeluar + " - "
                                     + alasanTarik + " - " + formatWaktu;
+                                riwayatTotal[0] = kasKeluar + " - " + formatWaktu;
                                 jmlKasDone[index]++;
                             }
 
@@ -177,19 +180,68 @@ public class kasOnline {
                                     }
                                     riwayatTransaksi[index][jmlKasDone[index]] = "penambahan kas - " + kasMasuk + " - "
                                         + formatWaktu;
+                                    riwayatTotal[1] = kasMasuk + " - " + formatWaktu;
                                     jmlKasDone[index]++;
                                 }
                             }
 
                             break;
                         case 3:
-                            System.out.println("Selamat datang di Program Riwayat Transaksi Kas");
+                            System.out.println("\nSelamat Datang di Program Riwayat Kas!");
                             System.out.println("--------------------------");
-                            System.out.println("Cetak Riwayat Transaksi untuk setiap pengguna");
-                            for (int i = 0; i < namaMahasiswa.length; i++) {
-                                System.out.println("Riwayat Transaksi untuk " + namaMahasiswa[i]);
-                                for (int j = 0; j < jmlKasDone[i]; j++) {
-                                    if (riwayatTransaksi[i][j] != null) {
+                            System.out.println("Pilih Menu:");
+                            System.out.println("1. Riwayat Mahasiswa");
+                            System.out.println("2. Riwayat Total");
+                            System.out.println("0. keluar");
+                            System.out.print("Pilih menu dalam (1/2/0): ");
+                            int pilRiwayat;
+                            pilRiwayat = scan.nextInt();
+                            switch (pilRiwayat) {
+                                case 1:
+                                    scan.nextLine();
+                                    cekNama = " ";
+                                    kesempatan = 3;
+                                    sesuai = false;
+                                    index = -1;
+                                    while (!sesuai && kesempatan >= 1) {
+                                        System.out.println("Masukkan nama mahasiswa: ");
+                                        cekNama = scan.nextLine();
+                                        for (int i = 0; i < namaMahasiswa.length; i++) {
+                                            if (namaMahasiswa[i].equals(cekNama)) {
+                                                System.out.println("Data mahasiswa ditemukan: " + namaMahasiswa[i]);
+                                                sesuai = true;
+                                                index = i;
+                                                break;
+                                            }
+                                        }
+                                        if (!sesuai) {
+                                            kesempatan--;
+                                            System.out.println("Data mahasiswa tidak ditemukan dalam database.");
+                                        }
+                                    }
+                                    if (kesempatan == 0) {
+                                        System.out.println(
+                                                "Anda telah melebihi batas percobaan, coba lagi setelah kembali ke menu");
+                                    } else {
+                                        System.out.println("Cetak Riwayat Transaksi untuk setiap pengguna");
+                                        System.out.println(namaMahasiswa[index]);
+                                        for (int i = 0; i < riwayatTransaksi[index].length; i++) {
+                                            if (riwayatTransaksi[index][i] != null) {
+                                                System.out.println(riwayatTransaksi[index][i]);
+                                            }
+                                        }
+                                        System.out.println();
+                                    }
+                                    break;
+                                case 2:
+                                    System.out.println("Cetak Semua Riwayat Transaksi");
+                                    System.out.print("Total kas yang telah ditarik hari ini: ");
+                                    System.out.println(riwayatTotal[0]);
+                                    System.out.print("Total kas yang telah ditambahkan hari ini: ");
+                                    System.out.println(riwayatTotal[1]);
+                                    break;
+                                default:
+                                    break;
                                         
                                     }
                                 }
