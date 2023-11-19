@@ -368,7 +368,7 @@ image.png
                                     if (namaMahasiswa[i].equals(cekNama)) {
                                         System.out.println("Data mahasiswa ditemukan: " + namaMahasiswa[i]);
                                         sesuai = true;
-                                        index = i;
+                                        index = i; 
                                         break;
                                     }
                                 }
