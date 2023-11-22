@@ -359,66 +359,66 @@ public class kasOnline {
                             }
                             break;
                             case 6:
-                            System.out.println("\nSelamat datang di Program Pembayaran Hutang");
-                            System.out.println("--------------------------");
-                            System.out.println("Total kas: " + totKasAwal);
-                            System.out.println("Kas bulan ini jika penuh: " + kasBulanFull);
-                            System.out.println("Kas asli bulan ini: " + kasBulanReal);
-                            System.out.println("--------------------------");
-                            scan.nextLine();
-
-                            cekNama = " ";
-                            kesempatan = 3;
-                            sesuai = false;
-                            index = -1;
-                            while (!sesuai && kesempatan >= 1) {
-                                System.out.println("Masukkan nama yang menambah kas: ");
-                                cekNama = scan.nextLine();
-                                for (int i = 0; i < namaMahasiswa.length; i++) {
-                                    if (namaMahasiswa[i].equals(cekNama)) {
-                                        System.out.println("Data mahasiswa ditemukan: " + namaMahasiswa[i]);
-                                        sesuai = true;
-                                        index = i;
-                                        break;
-                                    }
-                                }
-                                if (!sesuai) {
-                                    kesempatan--;
-                                    System.out.println("Data mahasiswa tidak ditemukan dalam database.");
-                                }
-                            }
-                            if (kesempatan == 0) {
-                                System.out.println(
-                                        "Anda telah melebihi batas percobaan, coba lagi setelah kembali ke menu");
-                            } else {
-                                if (hutangKas[index] == 0) {
-                                    System.out.println("Anda tidak memiliki hutang kas");
-                                } else {
-                                    cekHutang = false;
-                                    System.out.println("Hutang kas anda: " + hutangKas[index]);
-                                    System.out.println("Apakah anda ingin membayar denda? y/n");
-                                    pilih = scan.nextLine();
-                                    if (pilih.equalsIgnoreCase("y")) {
-                                        while (!cekHutang) {
-                                            System.out.println("Hutang kas anda: " + hutangKas[index]);
-                                            System.out.println("Masukkan nominal pembayaran: ");
-                                            bayarHutang = scan.nextInt();
-                                            if (bayarHutang > hutangKas[index]) {
-                                                System.out.println(
-                                                        "Nominal melebihi hutang anda. Masukkan nominal yang sesuai");
-                                            } else {
-                                                hutangKas[index] -= bayarHutang;
-                                                System.out.println("Pembayaran berhasil");
-                                                System.out.println("Sisa hutang anda: " + hutangKas[index]);
-                                                cekHutang = true;
-                                            }
-                                        }
-                                    } else if (pilih.equalsIgnoreCase("n")) {
-                                        System.out.println("Baiklah, kembali ke menu");
-                                    }
-                                }
-                            }
-                            break;
+                            System.out.println("\nSelamat datang di Program Pembayaran Hutang");
+                            System.out.println("--------------------------");
+                            System.out.println("Total kas: " + totKasAwal);
+                            System.out.println("Kas bulan ini jika penuh: " + kasBulanFull);
+                            System.out.println("Kas asli bulan ini: " + kasBulanReal);
+                            System.out.println("--------------------------");
+                            scan.nextLine();
+                            
+                            cekNama = " ";
+                            kesempatan = 3;
+                            sesuai = false;
+                            index = -1;
+                            while (!sesuai && kesempatan >= 1) {
+                                System.out.println("Masukkan nama yang menambah kas: ");
+                                cekNama = scan.nextLine();
+                                for (int i = 0; i < namaMahasiswa.length; i++) {
+                                    if (namaMahasiswa[i].equals(cekNama)) {
+                                        System.out.println("Data mahasiswa ditemukan: " + namaMahasiswa[i]);
+                                        sesuai = true;
+                                        index = i;
+                                        break;
+                                    }
+                                }
+                                if (!sesuai) {
+                                    kesempatan--;
+                                    System.out.println("Data mahasiswa tidak ditemukan dalam database.");
+                                }
+                            }
+                            if (kesempatan == 0) {
+                                System.out.println(
+                                    "Anda telah melebihi batas percobaan, coba lagi setelah kembali ke menu");
+                            } else {
+                                if (hutangKas[index] == 0) {
+                                    System.out.println("Anda tidak memiliki hutang kas");
+                                } else {
+                                    cekHutang = false;
+                                    System.out.println("Hutang kas anda: " + hutangKas[index]);
+                                    System.out.println("Apakah anda ingin membayar denda? y/n");
+                                    pilih = scan.nextLine();
+                                    if (pilih.equalsIgnoreCase("y")) {
+                                        while (!cekHutang) {
+                                            System.out.println("Hutang kas anda: " + hutangKas[index]);
+                                            System.out.println("Masukkan nominal pembayaran: ");
+                                            bayarHutang = scan.nextInt();
+                                            if (bayarHutang > hutangKas[index]) {
+                                                System.out.println(
+                                                    "Nominal melebihi hutang anda. Masukkan nominal yang sesuai");
+                                            } else {
+                                                hutangKas[index] -= bayarHutang;
+                                                System.out.println("Pembayaran berhasil");
+                                                System.out.println("Sisa hutang anda: " + hutangKas[index]);
+                                                cekHutang = true;
+                                            }
+                                        }
+                                    } else if (pilih.equalsIgnoreCase("n")) {
+                                        System.out.println("Baiklah, kembali ke menu");
+                                    }
+                                }
+                            }
+                            break;
                         default:
                             System.out.println("Pilihan tidak valid");
                             break;
