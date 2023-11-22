@@ -6,14 +6,15 @@ public class kasOnline {
     public static void main(String[] args) {
         String username, password, alasanTarik, cekNama, pilih;
         int jumlahPercobaan, pilihan, kasMasuk, kasKeluar, totKasAwal, kasBulanFull, kasBulanReal,
-                jmlKasFull, jmlKasAdd, kesempatan, index, bayarDenda;
-        boolean sesuai, cekKelipatan, cekDenda;
+                jmlKasFull, jmlKasAdd, kesempatan, index, bayarDenda, bayarHutang;
+        boolean sesuai, cekKelipatan, cekDenda, cekHutang;
 
         String[] namaMahasiswa = { "Tony", "Rey", "Dani" };
         String[] nimMahasiswa = { "00001", "00002", "00003" };
         String[] jkMahasiswa = { "Laki-laki", "Perempuan", "Laki-laki" };
         boolean saveDenda[] = { true, false, false };
         int[] jmlKasDone = { 15, 6, 10 };
+        int[] hutangKas = new int[3];
         String[] riwayatTotal = new String[2];
         String[][] riwayatTransaksi = new String[3][100];
 
@@ -36,10 +37,8 @@ public class kasOnline {
             username = scan.nextLine();
             System.out.println("Masukkan Password: ");
             password = scan.nextLine();
-
             if (username.equals("mahasiswa") && password.equals("123")) {
                 System.out.println("\nLogin berhasil");
-
                 do {
                     System.out.println("\nSelamat Datang di Program Kas Online!");
                     System.out.println("Pilih Menu:");
@@ -48,8 +47,9 @@ public class kasOnline {
                     System.out.println("3. Riwayat Kas");
                     System.out.println("4. Pembayaran Denda");
                     System.out.println("5. Data Mahasiswa");
+                    System.out.println("6. Bayar Hutang");
                     System.out.println("0. Keluar");
-                    System.out.print("Pilih menu dalam (1/2/3/4/5/0): ");
+                    System.out.print("Pilih menu dalam (1/2/3/4/5/6/0): ");
                     pilihan = scan.nextInt();
 
                     switch (pilihan) {
@@ -109,9 +109,9 @@ public class kasOnline {
                                 riwayatTransaksi[index][jmlKasDone[index]] = "Penarikan kas = " + kasKeluar + " - "
                                         + alasanTarik + " - " + formatWaktu;
                                 riwayatTotal[0] = kasKeluar + " - " + formatWaktu;
+                                hutangKas[index] += kasKeluar;
                             }
                             break;
-
                         case 2:
                             System.out.println("\nSelamat datang di Program Penambahan Kas");
                             System.out.println("--------------------------");
@@ -189,7 +189,6 @@ public class kasOnline {
                                 }
                             }
                             break;
-
                         case 3:
                             System.out.println("\nSelamat Datang di Program Riwayat Kas!");
                             System.out.println("--------------------------");
@@ -198,8 +197,8 @@ public class kasOnline {
                             System.out.println("2. Riwayat Total");
                             System.out.println("0. keluar");
                             System.out.print("Pilih menu dalam (1/2/0): ");
-
                             pilihan = scan.nextInt();
+                            
                             switch (pilihan) {
                                 case 1:
                                     scan.nextLine();
@@ -248,7 +247,6 @@ public class kasOnline {
                                     break;
                             }
                             break;
-
                         case 4:
                             System.out.println("\nSelamat datang di Program Pembayaran Denda");
                             System.out.println("--------------------------");
@@ -360,14 +358,73 @@ public class kasOnline {
                                 }
                             }
                             break;
+                            case 6:
+                            System.out.println("\nSelamat datang di Program Pembayaran Hutang");
+                            System.out.println("--------------------------");
+                            System.out.println("Total kas: " + totKasAwal);
+                            System.out.println("Kas bulan ini jika penuh: " + kasBulanFull);
+                            System.out.println("Kas asli bulan ini: " + kasBulanReal);
+                            System.out.println("--------------------------");
+                            scan.nextLine();
+
+                            cekNama = " ";
+                            kesempatan = 3;
+                            sesuai = false;
+                            index = -1;
+                            while (!sesuai && kesempatan >= 1) {
+                                System.out.println("Masukkan nama yang menambah kas: ");
+                                cekNama = scan.nextLine();
+                                for (int i = 0; i < namaMahasiswa.length; i++) {
+                                    if (namaMahasiswa[i].equals(cekNama)) {
+                                        System.out.println("Data mahasiswa ditemukan: " + namaMahasiswa[i]);
+                                        sesuai = true;
+                                        index = i;
+                                        break;
+                                    }
+                                }
+                                if (!sesuai) {
+                                    kesempatan--;
+                                    System.out.println("Data mahasiswa tidak ditemukan dalam database.");
+                                }
+                            }
+                            if (kesempatan == 0) {
+                                System.out.println(
+                                        "Anda telah melebihi batas percobaan, coba lagi setelah kembali ke menu");
+                            } else {
+                                if (hutangKas[index] == 0) {
+                                    System.out.println("Anda tidak memiliki hutang kas");
+                                } else {
+                                    cekHutang = false;
+                                    System.out.println("Hutang kas anda: " + hutangKas[index]);
+                                    System.out.println("Apakah anda ingin membayar denda? y/n");
+                                    pilih = scan.nextLine();
+                                    if (pilih.equalsIgnoreCase("y")) {
+                                        while (!cekHutang) {
+                                            System.out.println("Hutang kas anda: " + hutangKas[index]);
+                                            System.out.println("Masukkan nominal pembayaran: ");
+                                            bayarHutang = scan.nextInt();
+                                            if (bayarHutang > hutangKas[index]) {
+                                                System.out.println(
+                                                        "Nominal melebihi hutang anda. Masukkan nominal yang sesuai");
+                                            } else {
+                                                hutangKas[index] -= bayarHutang;
+                                                System.out.println("Pembayaran berhasil");
+                                                System.out.println("Sisa hutang anda: " + hutangKas[index]);
+                                                cekHutang = true;
+                                            }
+                                        }
+                                    } else if (pilih.equalsIgnoreCase("n")) {
+                                        System.out.println("Baiklah, kembali ke menu");
+                                    }
+                                }
+                            }
+                            break;
                         default:
                             System.out.println("Pilihan tidak valid");
                             break;
-
                         case 0:
                             System.out.println("Keluar");
                             return;
-
                     }
                 } while (pilihan >= 0);
             } else {
@@ -376,10 +433,7 @@ public class kasOnline {
             }
             if (jumlahPercobaan == 0)
                 return;
-
         } while (jumlahPercobaan > 0);
-
         scan.close();
-
     }
 }
