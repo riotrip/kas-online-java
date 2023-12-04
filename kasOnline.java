@@ -108,6 +108,59 @@ static String formatWaktu() {
             }
         }
     }
+    static void penambahanKas(String[] namaMahasiswa, int[] jmlKasDone, String[][] riwayatTransaksi,
+            LocalDateTime waktu,
+            int totKasAwal, int kasBulanReal, int kasBulanFull, int jmlKasFull) {
+        boolean sesuai = false;
+        int kesempatan = 3;
+        int index = inputNama(namaMahasiswa);
+
+        while (!sesuai && kesempatan >= 1) {
+            Scanner scan = new Scanner(System.in);
+            System.out.println("Masukkan jumlah uang yang ditambahkan: ");
+            int kasMasuk = scan.nextInt();
+
+            if (kasMasuk % 5000 == 0) {
+                sesuai = true;
+                totKasAwal += kasMasuk;
+                int jmlKasAdd = kasMasuk / 5000;
+                jmlKasDone[index] += jmlKasAdd;
+                kasBulanReal = kasMasuk + kasBulanReal;
+
+                System.out.println("--------------------------");
+                System.out.println("Mahasiswa yang membayar kas: " + namaMahasiswa[index]);
+                System.out.println("Kas yang ditambah: " + kasMasuk);
+                System.out.println("Waktu penambahan: " + formatWaktu(waktu));
+                System.out.println("Pembayaran yang dilakukan mahasiswa keseluruhan: "
+                        + jmlKasDone[index]);
+                System.out.println("--------------------------");
+
+                if (jmlKasDone[index] >= 8) {
+                    if (jmlKasDone[index] > jmlKasFull) {
+                        System.out.println("Lunas, tidak perlu membayar denda");
+                    } else {
+                        System.out.println("Belum Lunas, tetapi tidak perlu membayar denda");
+                    }
+                } else {
+                    System.out.println("Belum Lunas, dan perlu membayar denda 5000");
+                }
+
+                System.out.println("--------------------------");
+                System.out.println("Kas asli bulan ini setelah ditambah: " + kasBulanReal);
+                System.out.println("Kas bulan ini jika penuh: " + kasBulanFull);
+                System.out.println("Jumlah kas setelah penambahan: " + totKasAwal);
+            } else {
+                System.out.println("Uang harus kelipatan 5000");
+            }
+
+            riwayatTransaksi[index][jmlKasDone[index]] = "Penambahan kas = " + kasMasuk + " - "
+                    + formatWaktu(waktu);
+            kesempatan--;
+            if (kesempatan == 0) {
+                System.out.println("Anda telah melebihi batas percobaan, coba lagi setelah kembali ke menu");
+            }
+        }
+    }
     public static void main(String[] args) {
         String alasanTarik, pilih;
         int jumlahPercobaan, pilihan, kasMasuk, kasKeluar, totKasAwal, kasBulanFull, kasBulanReal,
@@ -156,79 +209,12 @@ static String formatWaktu() {
                         penarikanKas(namaMahasiswa, jmlKasDone, riwayatTransaksi, hutangKas, waktu, totKasAwal, 
                         kasBulanReal);
                         break; 
-                            }
-                            riwayatTransaksi[index][jmlKasDone[index]] = "Penarikan kas = " + kasKeluar + " - "
-                                    + alasanTarik + " - " + formatWaktu;
-                            riwayatTotal[0] += kasKeluar;
-                            hutangKas[index] += kasKeluar;
-
-                            break;
-                        }
-
-                        if (kesempatan == 0) {
-                            System.out.println(
-                                    "Anda telah melebihi batas percobaan, coba lagi setelah kembali ke menu");
-                        }
-                        break;
+                            
 
                     case 2:
-                        System.out.println("\nSelamat datang di Program Penambahan Kas");
-                        System.out.println("--------------------------");
-                        System.out.println("Total kas: " + totKasAwal);
-                        System.out.println("Kas bulan ini jika penuh: " + kasBulanFull);
-                        System.out.println("Kas asli bulan ini: " + kasBulanReal);
-                        System.out.println("--------------------------");
-                        scan.nextLine();
-
-                        index = inputNama(namaMahasiswa);
-
-                        while (!sesuai && kesempatan >= 1) {
-                            System.out.println("Masukkan jumlah uang yang ditambahkan: ");
-                            kasMasuk = scan.nextInt();
-                            if (kasMasuk % 5000 == 0) {
-                                sesuai = true;
-                                totKasAwal += kasMasuk;
-                                jmlKasAdd = kasMasuk / 5000;
-                                jmlKasDone[index] += jmlKasAdd;
-                                kasBulanReal = kasMasuk + kasBulanReal;
-
-                                System.out.println("--------------------------");
-                                System.out.println("Mahasiswa yang membayar kas: " + namaMahasiswa[index]);
-                                System.out.println("Kas yang ditambah: " + kasMasuk);
-                                System.out.println("Waktu penambahan: " + formatWaktu);
-                                System.out.println("Pembayaran yang dilakukan mahasiswa keseluruhan: "
-                                        + jmlKasDone[index]);
-                                System.out.println("--------------------------");
-
-                                if (jmlKasDone[index] >= 8) {
-                                    if (jmlKasDone[index] > 12) {
-                                        System.out.println("Lunas, tidak perlu membayar denda");
-                                    } else {
-                                        System.out.println("Belum Lunas, tetapi tidak perlu membayar denda");
-                                    }
-                                } else {
-                                    System.out.println("Belum Lunas, dan perlu membayar denda 5000");
-                                }
-
-                                System.out.println("--------------------------");
-                                System.out.println("Kas asli bulan ini setelah ditambah: " + kasBulanReal);
-                                System.out.println("Kas bulan ini jika penuh: " + kasBulanFull);
-                                System.out.println("Jumlah kas setelah penambahan: " + totKasAwal);
-                            } else {
-                                System.out.println("Uang harus kelipatan 5000");
-                                break;
-                            }
-                            riwayatTransaksi[index][jmlKasDone[index]] = "Penambahan kas = " + kasMasuk + " - "
-                                    + formatWaktu;
-                            riwayatTotal[1] += kasMasuk;
-                            break;
-                        }
-
-                        if (kesempatan == 0) {
-                            System.out.println(
-                                    "Anda telah melebihi batas percobaan, coba lagi setelah kembali ke menu");
-                        }
+                        penambahanKas(namaMahasiswa, jmlKasDone, riwayatTransaksi, waktu, totKasAwal, kasBulanReal, kasBulanFull, jmlKasFull);
                         break;
+                            
 
                     case 3:
                         System.out.println("\nSelamat Datang di Program Riwayat Kas!");
