@@ -63,6 +63,51 @@ static String formatWaktu() {
     DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
     return waktu.format(format);
 }
+    static void penarikanKas(String[] namaMahasiswa, int[] jmlKasDone, String[][] riwayatTransaksi, int[] hutangKas,
+            LocalDateTime waktu, int totKasAwal, int kasBulanReal) {
+        int kesempatan = 3;
+        int index = inputNama(namaMahasiswa);
+
+        Scanner scan = new Scanner(System.in);
+
+        while (kesempatan >= 1) {
+            System.out.println("Masukkan jumlah yang ditarik: ");
+            if (scan.hasNextInt()) {
+                int kasKeluar = scan.nextInt();
+                scan.nextLine();
+
+                System.out.println("Masukkan Alasan: ");
+                String alasanTarik = scan.nextLine();
+                System.out.println("--------------------------");
+
+                if (kasKeluar <= 0) {
+                    System.out.println("Jumlah yang ditarik harus lebih dari 0");
+                } else if (kasKeluar > totKasAwal) {
+                    System.out.println("Maaf, jumlah yang ditarik melebihi total kas yang tersedia");
+                } else {
+                    totKasAwal -= kasKeluar;
+                    System.out.println("Mahasiswa yang meminjam kas: " + namaMahasiswa[index]);
+                    System.out.println("Kas yang ditarik: " + kasKeluar);
+                    System.out.println("Alasan penarikan: " + alasanTarik);
+                    System.out.println("Waktu penarikan: " + formatWaktu(waktu));
+                    System.out.println("Jumlah total kas setelah penarikan: " + totKasAwal);
+
+                    riwayatTransaksi[index][jmlKasDone[index]] = "Penarikan kas = " + kasKeluar + " - "
+                            + alasanTarik + " - " + formatWaktu(waktu);
+                    hutangKas[index] += kasKeluar;
+                    break;
+                }
+            } else {
+                System.out.println("Masukkan jumlah yang valid (angka bulat)");
+                scan.nextLine();
+            }
+
+            kesempatan--;
+            if (kesempatan == 0) {
+                System.out.println("Anda telah melebihi batas percobaan, coba lagi setelah kembali ke menu");
+            }
+        }
+    }
     public static void main(String[] args) {
         String alasanTarik, pilih;
         int jumlahPercobaan, pilihan, kasMasuk, kasKeluar, totKasAwal, kasBulanFull, kasBulanReal,
@@ -108,37 +153,9 @@ static String formatWaktu() {
 
                 switch (pilihan) {
                     case 1:
-                        System.out.println("\nSelamat datang di Program Penarikan Kas");
-                        System.out.println("--------------------------");
-                        System.out.println("Total kas: " + totKasAwal);
-                        System.out.println("Kas bulan ini jika penuh: " + kasBulanFull);
-                        System.out.println("Kas asli bulan ini: " + kasBulanReal);
-                        System.out.println("--------------------------");
-                        scan.nextLine();
-
-                        index = inputNama(namaMahasiswa);
-
-                        while (!sesuai && kesempatan >= 1) {
-                            System.out.println("Masukkan jumlah yang ditarik: ");
-                            kasKeluar = scan.nextInt();
-                            System.out.println("Masukkan Alasan: ");
-                            scan.nextLine();
-                            alasanTarik = scan.nextLine();
-                            System.out.println("--------------------------");
-                            totKasAwal -= kasKeluar;
-
-                            if (kasKeluar <= 0) {
-                                System.out.println("Jumlah yang ditarik harus lebih dari 0");
-                            } else if (kasKeluar > totKasAwal) {
-                                System.out
-                                        .println("Maaf, jumlah yang ditarik melebihi total kas yang tersedia");
-                            } else {
-                                System.out.println("Mahasiswa yang meminjam kas: " + namaMahasiswa[index]);
-                                System.out.println("Kas yang ditarik: " + kasKeluar);
-                                System.out.println("Alasan penarikan: " + alasanTarik);
-                                System.out.println("Waktu penarikan: " + formatWaktu);
-                                System.out.println("Jumlah total kas setelah penarikan: " + totKasAwal);
-
+                        penarikanKas(namaMahasiswa, jmlKasDone, riwayatTransaksi, hutangKas, waktu, totKasAwal, 
+                        kasBulanReal);
+                        break; 
                             }
                             riwayatTransaksi[index][jmlKasDone[index]] = "Penarikan kas = " + kasKeluar + " - "
                                     + alasanTarik + " - " + formatWaktu;
