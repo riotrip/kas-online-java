@@ -58,7 +58,11 @@ public class kasOnline {
 
         return false;
     }
-
+static String formatWaktu() {
+    LocalDateTime waktu = LocalDateTime.now();
+    DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+    return waktu.format(format);
+}
     public static void main(String[] args) {
         String alasanTarik, pilih;
         int jumlahPercobaan, pilihan, kasMasuk, kasKeluar, totKasAwal, kasBulanFull, kasBulanReal,
@@ -74,11 +78,8 @@ public class kasOnline {
         String[] jkMahasiswa = { "Perempuan", "Laki-laki", "Laki-laki" };
         boolean saveDenda[] = { true, false, false };
 
-        LocalDateTime waktu = LocalDateTime.now();
-        DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+        formatWaktu()
         Scanner scan = new Scanner(System.in);
-
-        String formatWaktu = waktu.format(format);
 
         totKasAwal = 100000;
         kasBulanFull = 20000;
