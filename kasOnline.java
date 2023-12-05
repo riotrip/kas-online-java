@@ -58,13 +58,15 @@ public class kasOnline {
 
         return false;
     }
-static String formatWaktu() {
-    LocalDateTime waktu = LocalDateTime.now();
-    DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
-    return waktu.format(format);
-}
+
+    static String formatWaktu() {
+        LocalDateTime waktu = LocalDateTime.now();
+        DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+        return waktu.format(format);
+    }
+
     static void penarikanKas(String[] namaMahasiswa, int[] jmlKasDone, String[][] riwayatTransaksi, int[] hutangKas,
-            LocalDateTime waktu, int totKasAwal, int kasBulanReal) {
+            LocalDateTime waktu, int totKasAwal, int kasBulanReal, int[] riwayatTotal) {
         int kesempatan = 3;
         int index = inputNama(namaMahasiswa);
 
@@ -89,11 +91,12 @@ static String formatWaktu() {
                     System.out.println("Mahasiswa yang meminjam kas: " + namaMahasiswa[index]);
                     System.out.println("Kas yang ditarik: " + kasKeluar);
                     System.out.println("Alasan penarikan: " + alasanTarik);
-                    System.out.println("Waktu penarikan: " + formatWaktu(waktu));
+                    System.out.println("Waktu penarikan: " + formatWaktu());
                     System.out.println("Jumlah total kas setelah penarikan: " + totKasAwal);
 
                     riwayatTransaksi[index][jmlKasDone[index]] = "Penarikan kas = " + kasKeluar + " - "
-                            + alasanTarik + " - " + formatWaktu(waktu);
+                            + alasanTarik + " - " + formatWaktu();
+                    riwayatTotal[0] += kasKeluar;
                     hutangKas[index] += kasKeluar;
                     break;
                 }
@@ -108,9 +111,10 @@ static String formatWaktu() {
             }
         }
     }
+
     static void penambahanKas(String[] namaMahasiswa, int[] jmlKasDone, String[][] riwayatTransaksi,
             LocalDateTime waktu,
-            int totKasAwal, int kasBulanReal, int kasBulanFull, int jmlKasFull) {
+            int totKasAwal, int kasBulanReal, int kasBulanFull, int jmlKasFull, int[] riwayatTotal) {
         boolean sesuai = false;
         int kesempatan = 3;
         int index = inputNama(namaMahasiswa);
@@ -130,7 +134,7 @@ static String formatWaktu() {
                 System.out.println("--------------------------");
                 System.out.println("Mahasiswa yang membayar kas: " + namaMahasiswa[index]);
                 System.out.println("Kas yang ditambah: " + kasMasuk);
-                System.out.println("Waktu penambahan: " + formatWaktu(waktu));
+                System.out.println("Waktu penambahan: " + formatWaktu());
                 System.out.println("Pembayaran yang dilakukan mahasiswa keseluruhan: "
                         + jmlKasDone[index]);
                 System.out.println("--------------------------");
@@ -154,13 +158,59 @@ static String formatWaktu() {
             }
 
             riwayatTransaksi[index][jmlKasDone[index]] = "Penambahan kas = " + kasMasuk + " - "
-                    + formatWaktu(waktu);
+                    + formatWaktu();
+            riwayatTotal[1] += kasMasuk;
             kesempatan--;
             if (kesempatan == 0) {
                 System.out.println("Anda telah melebihi batas percobaan, coba lagi setelah kembali ke menu");
             }
         }
     }
+
+    static void riwayatKas(String[] namaMahasiswa, int[] jmlKasDone, String[][] riwayatTransaksi,
+            String[] nimMahasiswa,
+            String[] jkMahasiswa, boolean[] saveDenda, int[] hutangKas, int[] riwayatTotal) {
+        Scanner scan = new Scanner(System.in);
+        int index;
+
+        System.out.println("\nSelamat Datang di Program Riwayat Kas!");
+        System.out.println("--------------------------");
+        System.out.println("Pilih Menu:");
+        System.out.println("1. Riwayat Mahasiswa");
+        System.out.println("2. Riwayat Total");
+        System.out.println("0. Keluar");
+        System.out.print("Pilih menu dalam (1/2/0): ");
+        int pilihan = scan.nextInt();
+
+        switch (pilihan) {
+            case 1:
+                scan.nextLine();
+                index = inputNama(namaMahasiswa);
+                System.out.println("Cetak Riwayat Transaksi untuk setiap pengguna");
+                System.out.println(namaMahasiswa[index]);
+                for (int i = 0; i < riwayatTransaksi[index].length; i++) {
+                    if (riwayatTransaksi[index][i] != null) {
+                        System.out.println(riwayatTransaksi[index][i]);
+                    }
+                }
+                System.out.println();
+                break;
+
+            case 2:
+                System.out.println("Cetak Semua Riwayat Transaksi");
+                System.out.println("Total kas yang telah ditarik hari ini: " + riwayatTotal[0]);
+                System.out.println("Total kas yang telah ditambahkan hari ini: " + riwayatTotal[1]);
+                break;
+
+            case 0:
+                break;
+
+            default:
+                System.out.println("Pilihan tidak valid");
+                break;
+        }
+    }
+
     public static void main(String[] args) {
         String alasanTarik, pilih;
         int jumlahPercobaan, pilihan, kasMasuk, kasKeluar, totKasAwal, kasBulanFull, kasBulanReal,
@@ -170,13 +220,13 @@ static String formatWaktu() {
         String[] namaMahasiswa = { "Azza", "Angga", "Rio" };
         int[] jmlKasDone = { 15, 6, 10 };
         String[][] riwayatTransaksi = new String[3][100];
-        String[] riwayatTotal = new String[2];
+        int[] riwayatTotal = { 0, 0 };
         int[] hutangKas = new int[3];
         String[] nimMahasiswa = { "00001", "00002", "00003" };
         String[] jkMahasiswa = { "Perempuan", "Laki-laki", "Laki-laki" };
         boolean saveDenda[] = { true, false, false };
 
-        formatWaktu()
+        formatWaktu();
         Scanner scan = new Scanner(System.in);
 
         totKasAwal = 100000;
@@ -193,6 +243,11 @@ static String formatWaktu() {
         if (login()) {
             do {
                 System.out.println("\nSelamat Datang di Program Kas Online!");
+                System.out.println("--------------------------");
+                System.out.println("Total kas: " + totKasAwal);
+                System.out.println("Kas bulan ini jika penuh: " + kasBulanFull);
+                System.out.println("Kas asli bulan ini: " + kasBulanReal);
+                System.out.println("--------------------------");
                 System.out.println("Pilih Menu:");
                 System.out.println("1. Penarikan Kas");
                 System.out.println("2. Penambahan Kas");
@@ -206,58 +261,44 @@ static String formatWaktu() {
 
                 switch (pilihan) {
                     case 1:
-                        penarikanKas(namaMahasiswa, jmlKasDone, riwayatTransaksi, hutangKas, waktu, totKasAwal, 
-                        kasBulanReal);
-                        break; 
-                            
+                        System.out.println("\nSelamat datang di Fitur Penarikan Kas");
+                        System.out.println("--------------------------");
+                        System.out.println(
+                                "Fitur ini digunakan mahasiswa untuk menarik kas\nSetiap kas yang ditarik akan masuk ke dalam hutang mahasiswa tersebut");
+                        System.out.println("--------------------------");
+                        scan.nextLine();
+                        penarikanKas(namaMahasiswa, jmlKasDone, riwayatTransaksi, hutangKas, null, totKasAwal,
+                                kasBulanReal, riwayatTotal);
+                        break;
 
                     case 2:
-                        penambahanKas(namaMahasiswa, jmlKasDone, riwayatTransaksi, waktu, totKasAwal, kasBulanReal, kasBulanFull, jmlKasFull);
+                        System.out.println("\nSelamat datang di Fitur Pembayaran Kas");
+                        System.out.println("--------------------------");
+                        System.out.println(
+                                "Fitur ini digunakan mahasiswa untuk membayar kas\nSetiap kas yang dibayar akan masuk ke dalam riwayat kas mahasiswa tersebut");
+                        System.out.println("--------------------------");
+                        scan.nextLine();
+                        penambahanKas(namaMahasiswa, jmlKasDone, riwayatTransaksi, null, totKasAwal, kasBulanReal,
+                                kasBulanFull, jmlKasFull, riwayatTotal);
                         break;
-                            
 
                     case 3:
-                        System.out.println("\nSelamat Datang di Program Riwayat Kas!");
+                        System.out.println("\nSelamat Datang di Fitur Riwayat Kas!");
                         System.out.println("--------------------------");
-                        System.out.println("Pilih Menu:");
-                        System.out.println("1. Riwayat Mahasiswa");
-                        System.out.println("2. Riwayat Total");
-                        System.out.println("0. Keluar");
-                        System.out.print("Pilih menu dalam (1/2/0): ");
-                        pilihan = scan.nextInt();
-                        switch (pilihan) {
-                            case 1:
-                                scan.nextLine();
-                                index = inputNama(namaMahasiswa);
-                                System.out.println("Cetak Riwayat Transaksi untuk setiap pengguna");
-                                System.out.println(namaMahasiswa[index]);
-                                for (int i = 0; i < riwayatTransaksi[index].length; i++) {
-                                    if (riwayatTransaksi[index][i] != null) {
-                                        System.out.println(riwayatTransaksi[index][i]);
-                                    }
-                                }
-                                System.out.println();
-                                break;
-                            case 2:
-                                System.out.println("Cetak Semua Riwayat Transaksi");
-                                System.out.print("Total kas yang telah ditarik hari ini: ");
-                                System.out.println(riwayatTotal[0]);
-                                System.out.print("Total kas yang telah ditambahkan hari ini: ");
-                                System.out.println(riwayatTotal[1]);
-                                break;
-                            case 0:
-                                break;
-                            default:
-                                break;
-                        }
+                        System.out.println(
+                                "Fitur ini digunakan untuk melihat riwayat kas\nTerdapat 2 fitur riwayat yaitu riwayat mahasiswa dan riwayat total");
+                        System.out.println("--------------------------");
+                        riwayatKas(namaMahasiswa, jmlKasDone, riwayatTransaksi, nimMahasiswa, jkMahasiswa,
+                                saveDenda,
+                                hutangKas, riwayatTotal);
                         break;
 
                     case 4:
-                        System.out.println("\nSelamat datang di Program Pembayaran Denda");
+                        System.out.println("\nSelamat datang di Fitur Pembayaran Denda");
                         System.out.println("--------------------------");
-                        System.out.println("Total kas: " + totKasAwal);
-                        System.out.println("Kas bulan ini jika penuh: " + kasBulanFull);
-                        System.out.println("Kas asli bulan ini: " + kasBulanReal);
+                        System.out.println(
+                                "Fitur ini digunakan untuk membayar denda jika tidak melakukan pembayaran kas selama 1 bulan\nDenda yang harus dibayarkan sejumlah Rp.5.000");
+
                         System.out.println("--------------------------");
                         scan.nextLine();
 
@@ -298,11 +339,10 @@ static String formatWaktu() {
                         break;
 
                     case 5:
-                        System.out.println("\nSelamat datang di Program Data Mahasiswa");
+                        System.out.println("\nSelamat datang di Fitur Data Mahasiswa");
                         System.out.println("--------------------------");
-                        System.out.println("Total kas: " + totKasAwal);
-                        System.out.println("Kas bulan ini jika penuh: " + kasBulanFull);
-                        System.out.println("Kas asli bulan ini: " + kasBulanReal);
+                        System.out.println(
+                                "Fitur ini digunakan untuk melihat data dari masing-masing mahasiswa\nInformasi berupa seperti nama, NIM, jenis kelamin, total kas bayar selama 1 tahun, dan status tanggungan denda.");
                         System.out.println("--------------------------");
                         scan.nextLine();
 
@@ -320,11 +360,10 @@ static String formatWaktu() {
                         break;
 
                     case 6:
-                        System.out.println("\nSelamat datang di Program Pembayaran Hutang");
+                        System.out.println("\nSelamat datang di Fitur Pembayaran Hutang");
                         System.out.println("--------------------------");
-                        System.out.println("Total kas: " + totKasAwal);
-                        System.out.println("Kas bulan ini jika penuh: " + kasBulanFull);
-                        System.out.println("Kas asli bulan ini: " + kasBulanReal);
+                        System.out.println(
+                                "Fitur ini digunakan untuk pembayarn hutang\nHanya berlaku untuk mahasiswa yang memiliki hutang");
                         System.out.println("--------------------------");
                         scan.nextLine();
 
@@ -375,5 +414,4 @@ static String formatWaktu() {
         scan.close();
 
     }
-
 }
