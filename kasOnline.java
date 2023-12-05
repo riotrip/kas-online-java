@@ -114,7 +114,8 @@ public class kasOnline {
 
     static void penambahanKas(String[] namaMahasiswa, int[] jmlKasDone, String[][] riwayatTransaksi,
             LocalDateTime waktu,
-            int totKasAwal, int kasBulanReal, int kasBulanFull, int jmlKasFull, int[] riwayatTotal) {
+            int totKasAwal, int kasBulanReal, int kasBulanFull, int jmlKasFull, int[] riwayatTotal,
+            boolean[] saveDenda) {
         boolean sesuai = false;
         int kesempatan = 3;
         int index = inputNama(namaMahasiswa);
@@ -173,7 +174,7 @@ public class kasOnline {
         Scanner scan = new Scanner(System.in);
         int index;
 
-        System.out.println("\nSelamat Datang di Program Riwayat Kas!");
+        System.out.println("\nSelamat Datang di Program Riwayat Kas");
         System.out.println("--------------------------");
         System.out.println("Pilih Menu:");
         System.out.println("1. Riwayat Mahasiswa");
@@ -211,6 +212,48 @@ public class kasOnline {
         }
     }
 
+    static void pembayaranDenda(String[] namaMahasiswa, int[] jmlKasDone, String[][] riwayatTransaksi,
+            boolean[] saveDenda, int[] hutangKas, int totKasAwal, int kasBulanReal, LocalDateTime waktu) {
+        Scanner scan = new Scanner(System.in);
+        int index = inputNama(namaMahasiswa);
+
+        if (saveDenda[index] == true) {
+            System.out.println("Anda tidak memiliki tanggungan denda\nKeluar fitur");
+        } else if (saveDenda[index] == false && jmlKasDone[index] <= 4) {
+            System.out.println("Anda memiliki tanggungan denda");
+            System.out.println("--------------------------");
+            System.out.println("Lunasi dahulu minimal 2 bulan untuk membayar denda");
+        } else {
+            System.out.println("Anda memiliki tanggungan denda");
+            System.out.println("--------------------------");
+            System.out.println("Denda bisa dibayarkan");
+            System.out.println("Apakah anda ingin membayar denda? y/n");
+            boolean cekDenda = false;
+            String pilih = scan.nextLine();
+
+            if (pilih.equalsIgnoreCase("y")) {
+                while (!cekDenda) {
+                    System.out.println("Masukkan nominal denda Rp. 5000");
+                    int bayarDenda = scan.nextInt();
+                    if (bayarDenda == 5000) {
+                        saveDenda[index] = true;
+                        System.out.println("Denda telah dibayarkan, Terima Kasih");
+
+                        riwayatTransaksi[index][jmlKasDone[index]] = "Pembayaran Denda = " + bayarDenda + " - "
+                                + formatWaktu();
+                        totKasAwal += bayarDenda;
+                        kasBulanReal += bayarDenda;
+                    } else {
+                        System.out.println("Nominal pembayaran harus Rp. 5000");
+                    }
+                    cekDenda = true;
+                }
+            } else if (pilih.equalsIgnoreCase("n")) {
+                System.out.println("Baiklah, kembali ke menu");
+            }
+        }
+    }
+
     public static void main(String[] args) {
         String alasanTarik, pilih;
         int jumlahPercobaan, pilihan, kasMasuk, kasKeluar, totKasAwal, kasBulanFull, kasBulanReal,
@@ -224,7 +267,7 @@ public class kasOnline {
         int[] hutangKas = new int[3];
         String[] nimMahasiswa = { "00001", "00002", "00003" };
         String[] jkMahasiswa = { "Perempuan", "Laki-laki", "Laki-laki" };
-        boolean saveDenda[] = { true, false, false };
+        boolean saveDenda[] = { true, false, true };
 
         formatWaktu();
         Scanner scan = new Scanner(System.in);
@@ -279,7 +322,7 @@ public class kasOnline {
                         System.out.println("--------------------------");
                         scan.nextLine();
                         penambahanKas(namaMahasiswa, jmlKasDone, riwayatTransaksi, null, totKasAwal, kasBulanReal,
-                                kasBulanFull, jmlKasFull, riwayatTotal);
+                                kasBulanFull, jmlKasFull, riwayatTotal, saveDenda);
                         break;
 
                     case 3:
@@ -302,42 +345,9 @@ public class kasOnline {
                         System.out.println("--------------------------");
                         scan.nextLine();
 
-                        index = inputNama(namaMahasiswa);
-
-                        if (jmlKasDone[index] >= 8) {
-                            if (jmlKasDone[index] > 12) {
-                                System.out.println("Lunas, tidak perlu membayar denda");
-                            } else {
-                                System.out.println("Belum Lunas, tetapi tidak perlu membayar denda");
-                            }
-                        } else if (jmlKasDone[index] <= 4) {
-                            System.out.println("Belum Lunas, dan perlu membayar denda 5000");
-                            System.out.println("--------------------------");
-                            System.out.println("Lunasi dahulu minimal 2 bulan untuk membayar denda");
-                        } else {
-                            System.out.println("Belum Lunas, dan perlu membayar denda 5000");
-                            System.out.println("--------------------------");
-                            System.out.println("Denda bisa dibayarkan");
-                            System.out.println("Apakah anda ingin membayar denda? y/n");
-                            cekDenda = false;
-                            pilih = scan.nextLine();
-                            if (pilih.equalsIgnoreCase("y")) {
-                                while (!cekDenda) {
-                                    System.out.println("Masukkan nominal denda Rp. 5000");
-                                    bayarDenda = scan.nextInt();
-                                    if (bayarDenda == 5000) {
-                                        saveDenda[index] = true;
-                                        System.out.println("Denda telah dibayarkan, Terima Kasih");
-                                    } else {
-                                        System.out.println("Nominal pembayaran harus Rp. 5000");
-                                    }
-                                }
-                            } else if (pilih.equalsIgnoreCase("n")) {
-                                System.out.println("Baiklah, kembali ke menu");
-                            }
-                        }
+                        pembayaranDenda(namaMahasiswa, jmlKasDone, riwayatTransaksi, saveDenda, hutangKas, totKasAwal,
+                                kasBulanReal, null);
                         break;
-
                     case 5:
                         System.out.println("\nSelamat datang di Fitur Data Mahasiswa");
                         System.out.println("--------------------------");
