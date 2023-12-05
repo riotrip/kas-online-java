@@ -254,11 +254,29 @@ public class kasOnline {
         }
     }
 
+    static void dataMahasiswa(String[] namaMahasiswa, String[] nimMahasiswa, String[] jkMahasiswa,
+            boolean[] saveDenda, int[] jmlKasDone, int[] hutangKas) {
+        Scanner scan = new Scanner(System.in);
+        int jmlKasFull = 12;
+        int index = inputNama(namaMahasiswa);
+
+        System.out.println("Nama mahasiswa: " + namaMahasiswa[index]);
+        System.out.println("NIM: " + nimMahasiswa[index]);
+        System.out.println("Jenis kelamin: " + jkMahasiswa[index]);
+        System.out.println("Kas yang telah dibayar: " + jmlKasDone[index] + "/" + jmlKasFull);
+
+        if (saveDenda[index]) {
+            System.out.println("Tidak ada tanggungan denda");
+        } else {
+            System.out.println("Ada tanggungan denda");
+        }
+    }
+
     public static void main(String[] args) {
-        String alasanTarik, pilih;
-        int jumlahPercobaan, pilihan, kasMasuk, kasKeluar, totKasAwal, kasBulanFull, kasBulanReal,
-                jmlKasFull, jmlKasAdd, kesempatan, index, bayarDenda, bayarHutang;
-        boolean sesuai, cekKelipatan, cekDenda, cekHutang;
+        String pilih;
+        int pilihan, totKasAwal, kasBulanFull, kasBulanReal,
+                jmlKasFull, index, bayarHutang;
+        boolean cekHutang;
 
         String[] namaMahasiswa = { "Azza", "Angga", "Rio" };
         int[] jmlKasDone = { 15, 6, 10 };
@@ -276,12 +294,6 @@ public class kasOnline {
         kasBulanFull = 20000;
         kasBulanReal = 10000;
         jmlKasFull = 12;
-
-        jumlahPercobaan = 3;
-
-        cekKelipatan = false;
-        kesempatan = 3;
-        sesuai = false;
 
         if (login()) {
             do {
@@ -355,18 +367,7 @@ public class kasOnline {
                                 "Fitur ini digunakan untuk melihat data dari masing-masing mahasiswa\nInformasi berupa seperti nama, NIM, jenis kelamin, total kas bayar selama 1 tahun, dan status tanggungan denda.");
                         System.out.println("--------------------------");
                         scan.nextLine();
-
-                        index = inputNama(namaMahasiswa);
-
-                        System.out.println("Nama mahasiswa: " + namaMahasiswa[index]);
-                        System.out.println("NIM: " + nimMahasiswa[index]);
-                        System.out.println("Jenis kelamin: " + jkMahasiswa[index]);
-                        System.out.println("Kas yang telah dibayar: " + jmlKasDone[index] + "/" + jmlKasFull);
-                        if (saveDenda[index]) {
-                            System.out.println("Tidak ada tanggungan denda");
-                        } else {
-                            System.out.println("Ada tanggungan denda");
-                        }
+                        dataMahasiswa(namaMahasiswa, nimMahasiswa, jkMahasiswa, saveDenda, hutangKas, jmlKasDone);
                         break;
 
                     case 6:
