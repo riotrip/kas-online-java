@@ -7,7 +7,7 @@ public class kasOnline {
             namaLengkap = { "Azzahra Attaqina", "Moh Angga Tegar Primadana", "Rio Tri Prayogo" },
             nimMahasiswa = { "00001", "00002", "00003" },
             jkMahasiswa = { "Perempuan", "Laki-laki", "Laki-laki" };
-    static int[] jmlKasMhs = { 15, 6, 10 }, riwayatTotal = { 0, 0 }, hutangKas = new int[3];
+    static int[] jmlKasMhs = { 15, 6, 10 }, riwayatTotal = { 0, 0, 0, 0 }, hutangKas = new int[3];
     static boolean[] saveDenda = { true, false, true };
     static String[][] riwayatTransaksi = new String[3][100];
     static int totalKas = 100000, kasBulanFull = 20000, kasBulanReal = 10000, jumlahKas = 12, kesempatan = 3;
@@ -55,6 +55,7 @@ public class kasOnline {
 
             for (int i = 0; i < namaMahasiswa.length; i++) {
                 if (namaMahasiswa[i].equals(cekNama)) {
+                    System.out.println("--------------------------");
                     System.out.println("Data mahasiswa ditemukan: " + namaMahasiswa[i]);
                     System.out.println("--------------------------");
                     cek = true;
@@ -64,6 +65,7 @@ public class kasOnline {
             }
             if (!cek) {
                 kesempatan--;
+                System.out.println("--------------------------");
                 System.out.println("Data mahasiswa tidak ditemukan dalam database.");
                 System.out.println("Sisa percobaan: " + kesempatan);
                 System.out.println("--------------------------");
@@ -97,38 +99,33 @@ public class kasOnline {
 
         while (kesempatan >= 1) {
             System.out.println("Masukkan jumlah yang ditarik: ");
-            if (scan.hasNextInt()) {
-                int kasKeluar = scan.nextInt();
-                scan.nextLine();
+            int kasKeluar = scan.nextInt();
+            scan.nextLine();
 
-                System.out.println("Masukkan Alasan: ");
-                String alasanTarik = scan.nextLine();
-                System.out.println("--------------------------");
+            System.out.println("Masukkan Alasan: ");
+            String alasanTarik = scan.nextLine();
+            System.out.println("--------------------------");
 
-                if (kasKeluar <= 0) {
-                    System.out.println("Jumlah yang ditarik harus lebih dari 0");
-                } else if (kasKeluar > totalKas) {
-                    System.out.println("Maaf, jumlah yang ditarik melebihi total kas yang tersedia");
-                } else {
-                    totalKas -= kasKeluar;
-                    System.out.println("Mahasiswa yang meminjam kas: " + namaMahasiswa[index]);
-                    System.out.println("Kas yang ditarik: " + kasKeluar);
-                    System.out.println("Alasan penarikan: " + alasanTarik);
-                    System.out.println("Waktu penarikan: " + formatWaktu());
-                    System.out.println("Jumlah total kas setelah penarikan: " + totalKas);
-
-                    int indexRiwayat = simpanRiwayat(riwayatTransaksi[index]);
-                    riwayatTransaksi[index][indexRiwayat] = "Penarikan kas = " + kasKeluar + " - "
-                            + alasanTarik + " - " + formatWaktu();
-                    riwayatTotal[0] += kasKeluar;
-                    hutangKas[index] += kasKeluar;
-                    break;
-                }
+            if (kasKeluar <= 0) {
+                System.out.println("Jumlah yang ditarik harus lebih dari 0");
+            } else if (kasKeluar > totalKas) {
+                System.out.println("Maaf, jumlah yang ditarik melebihi total kas yang tersedia");
             } else {
-                System.out.println("Masukkan jumlah yang valid (angka bulat)");
-                scan.nextLine();
-            }
+                totalKas -= kasKeluar;
+                System.out.println("Mahasiswa yang meminjam kas: " + namaMahasiswa[index]);
+                System.out.println("Kas yang ditarik: " + kasKeluar);
+                System.out.println("Alasan penarikan: " + alasanTarik);
+                System.out.println("Waktu penarikan: " + formatWaktu());
+                System.out.println("Jumlah total kas setelah penarikan: " + totalKas);
 
+                int indexRiwayat = simpanRiwayat(riwayatTransaksi[index]);
+                riwayatTransaksi[index][indexRiwayat] = "Penarikan kas\t\t = " + kasKeluar + " - "
+                        + alasanTarik + " - " + formatWaktu();
+                riwayatTotal[0] += kasKeluar;
+                hutangKas[index] += kasKeluar;
+                kesempatan = 3;
+                break;
+            }
             kesempatan--;
             if (kesempatan == 0) {
                 System.out.println("Anda telah melebihi batas percobaan, coba lagi setelah kembali ke menu");
@@ -143,7 +140,7 @@ public class kasOnline {
             return;
         }
         while (!cek && kesempatan >= 1) {
-            System.out.println("Masukkan jumlah uang yang ditambahkan: ");
+            System.out.println("Masukkan jumlah uang yang dibayarkan: ");
             int kasMasuk = scan.nextInt();
 
             if (kasMasuk % 5000 == 0) {
@@ -154,8 +151,8 @@ public class kasOnline {
 
                 System.out.println("--------------------------");
                 System.out.println("Mahasiswa yang membayar kas: " + namaMahasiswa[index]);
-                System.out.println("Kas yang ditambah: " + kasMasuk);
-                System.out.println("Waktu penambahan: " + formatWaktu());
+                System.out.println("Kas yang dibayarkan: " + kasMasuk);
+                System.out.println("Waktu pembayaran: " + formatWaktu());
                 System.out.println("Pembayaran yang dilakukan mahasiswa keseluruhan: "
                         + jmlKasMhs[index]);
                 System.out.println("--------------------------");
@@ -170,6 +167,10 @@ public class kasOnline {
                     System.out.println("Belum Lunas, dan perlu membayar denda 5000");
                 }
 
+                int indexRiwayat = simpanRiwayat(riwayatTransaksi[index]);
+                riwayatTransaksi[index][indexRiwayat] = "Pembayaran kas\t\t = " + kasMasuk + " - "
+                        + formatWaktu();
+                riwayatTotal[1] += kasMasuk;
                 System.out.println("--------------------------");
                 System.out.println("Kas asli bulan ini setelah ditambah: " + kasBulanReal);
                 System.out.println("Kas bulan ini jika penuh: " + kasBulanFull);
@@ -177,11 +178,6 @@ public class kasOnline {
             } else {
                 System.out.println("Uang harus kelipatan 5000");
             }
-
-            int indexRiwayat = simpanRiwayat(riwayatTransaksi[index]);
-            riwayatTransaksi[index][indexRiwayat] = "Penambahan kas = " + kasMasuk + " - "
-                    + formatWaktu();
-            riwayatTotal[1] += kasMasuk;
             kesempatan--;
             if (kesempatan == 0) {
                 System.out.println("Anda telah melebihi batas percobaan, coba lagi setelah kembali ke menu");
@@ -193,6 +189,7 @@ public class kasOnline {
         System.out.println("Pilih Menu:");
         System.out.println("1. Riwayat Mahasiswa");
         System.out.println("2. Riwayat Total");
+        System.out.println("3. Seluruh Riwayat");
         System.out.println("0. Keluar");
         System.out.print("Pilih menu dalam (1/2/0): ");
         int pilihan = scan.nextInt();
@@ -215,11 +212,28 @@ public class kasOnline {
                 break;
 
             case 2:
-                System.out.println("Cetak Semua Riwayat Transaksi");
-                System.out.println("Total kas yang telah ditarik hari ini: " + riwayatTotal[0]);
-                System.out.println("Total kas yang telah ditambahkan hari ini: " + riwayatTotal[1]);
+                System.out.println("Cetak Total Riwayat Transaksi");
+                System.out.println("--------------------------");
+                System.out.println("Total kas yang telah ditarik hari ini\t\t: " + riwayatTotal[0]);
+                System.out.println("Total kas yang telah dibayarkan hari ini\t: " + riwayatTotal[1]);
+                System.out.println("Total denda yang telah dibayarkan hari ini\t: " + riwayatTotal[2]);
+                System.out.println("Total hutang yang telah dibayarkan hari ini\t: " + riwayatTotal[3]);
                 break;
 
+            case 3:
+                System.out.println("Cetak Seluruh Riwayat Transaksi");
+                for (int i = 0; i < riwayatTransaksi.length; i++) {
+                    System.out.println("--------------------------");
+                    System.out.println(namaMahasiswa[i]);
+                    System.out.println("--------------------------");
+                    for (int j = 0; j < riwayatTransaksi[i].length; j++) {
+                        if (riwayatTransaksi[i][j] != null) {
+                            System.out.println(riwayatTransaksi[i][j]);
+                        }
+                    }
+                    System.out.println();
+                }
+                break;
             case 0:
                 break;
 
@@ -257,8 +271,9 @@ public class kasOnline {
                         System.out.println("Denda telah dibayarkan, Terima Kasih");
 
                         int indexRiwayat = simpanRiwayat(riwayatTransaksi[index]);
-                        riwayatTransaksi[index][indexRiwayat] = "Pembayaran Denda = " + bayarDenda + " - "
+                        riwayatTransaksi[index][indexRiwayat] = "Pembayaran Denda\t = " + bayarDenda + " - "
                                 + formatWaktu();
+                        riwayatTotal[2] += bayarDenda;
                         totalKas += bayarDenda;
                         kasBulanReal += bayarDenda;
                         cek = true;
@@ -325,10 +340,11 @@ public class kasOnline {
                         System.out.println("Hutang kas anda: " + hutangKas[index]);
                     } else if (bayarHutang == hutangKas[index] || bayarHutang <= hutangKas[index]) {
                         int indexRiwayat = simpanRiwayat(riwayatTransaksi[index]);
-                        riwayatTransaksi[index][indexRiwayat] = "Pembayaran Hutang = " + bayarHutang + " - "
+                        riwayatTransaksi[index][indexRiwayat] = "Pembayaran Hutang\t = " + bayarHutang + " - "
                                 + formatWaktu();
                         hutangKas[index] -= bayarHutang;
                         totalKas += bayarHutang;
+                        riwayatTotal[3] += bayarHutang;
                         System.out.println("Pembayaran berhasil");
                         System.out.println("Sisa hutang anda: " + hutangKas[index]);
                         if (hutangKas[index] > 0) {
